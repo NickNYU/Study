@@ -1,0 +1,16 @@
+NIO Server Reference:
+
+
+http://alex-yang-xiansoftware-com.iteye.com/blog/1114626
+
+http://my.oschina.net/xpbug/blog/101313
+
+
+Java Socket:
+
+http://my.oschina.net/leoson/blog/105608
+
+
+Netty Studay:
+
+http://ykgarfield.github.io/Netty_in_Action_v5_MEAP/
