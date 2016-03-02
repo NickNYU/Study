@@ -48,4 +48,10 @@ public class SocketClient {
 		}
 	}
 	
+	public static void main(String[] args) {
+		SocketClient client = new SocketClient();
+		for(int i = 0; i < 10; i++) {
+			client.openSocket("localhost", 8080, "Hello World! : " + i);
+		}
+	}
 }

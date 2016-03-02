@@ -20,7 +20,7 @@ public class SocketServer implements Runnable {
 		private static SocketServer socketServer = new SocketServer();
 	}
 	
-	public SocketServer getServer() {
+	public static SocketServer getServer() {
 		return ServerFactory.socketServer;
 	}
 	
@@ -34,11 +34,11 @@ public class SocketServer implements Runnable {
 			try {
 				socket = this.serverSocket.accept();
 				SocketWrapper wrap = new SocketWrapper(socket);
-				while(!threadPool.isStopped() && threadPool.isFull()) {
-					this.wait();
-				}
+//				while(!threadPool.isStopped() && threadPool.isFull()) {
+//					this.wait();
+//				}
 				threadPool.put(wrap);
-			} catch(IOException | InterruptedException e) {
+			} catch(IOException e) {
 				if(isStopped) {
                     System.out.println("Server Stopped.") ;
                     return;
@@ -69,9 +69,11 @@ public class SocketServer implements Runnable {
         }
     }
 	
-	private int port = 80;
+	private int port = 8080;
 	
 	private ServerSocket serverSocket = null;
 	
 	private boolean isStopped = false;
+	
+	
 }
