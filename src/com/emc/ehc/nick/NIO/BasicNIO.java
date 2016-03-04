@@ -13,7 +13,7 @@ public class BasicNIO {
 		try {
 			ServerSocketChannel serverSocketChannel = ServerSocketChannel.open();
 			
-			SocketAddress socketAddress = new InetSocketAddress(InetAddress.getByName("10.103.201.79"), 8080);
+			SocketAddress socketAddress = new InetSocketAddress("10.103.201.79", 8080);
 			serverSocketChannel.bind(socketAddress);
 			
 			serverSocketChannel.configureBlocking(false);

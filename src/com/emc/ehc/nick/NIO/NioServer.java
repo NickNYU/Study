@@ -59,75 +59,75 @@ public class NioServer {
 			int keys = selector.select();
 			
 			if(keys > 0) {
-				// ÒÀ´Î´¦ÀíselectorÉÏµÄÃ¿¸öÒÑÑ¡ÔñµÄSelectionKey
+				// ï¿½ï¿½ï¿½Î´ï¿½ï¿½ï¿½selectorï¿½Ïµï¿½Ã¿ï¿½ï¿½ï¿½ï¿½Ñ¡ï¿½ï¿½ï¿½SelectionKey
 				try {
 					for(SelectionKey key : selector.selectedKeys()) {
-						// ´ÓselectorÉÏµÄÒÑÑ¡ÔñKey¼¯ÖÐÉ¾³ýÕýÔÚ´¦ÀíµÄSelectionKey  
+						// ï¿½ï¿½selectorï¿½Ïµï¿½ï¿½ï¿½Ñ¡ï¿½ï¿½Keyï¿½ï¿½ï¿½ï¿½É¾ï¿½ï¿½ï¿½ï¿½ï¿½Ú´ï¿½ï¿½ï¿½ï¿½SelectionKey  
                         selector.selectedKeys().remove(key);
-                        // Èç¹ûkey¶ÔÓ¦µÄÍ¨µÀ°üº¬¿Í»§¶ËµÄÁ¬½ÓÇëÇó
+                        // ï¿½ï¿½ï¿½keyï¿½ï¿½Ó¦ï¿½ï¿½Í¨ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í»ï¿½ï¿½Ëµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
                         if(key.isAcceptable()) {
-                        	// µ÷ÓÃaccept·½·¨½ÓÊÜÁ¬½Ó£¬²úÉú·þÎñÆ÷¶Ë¶ÔÓ¦µÄSocketChannel  
+                        	// ï¿½ï¿½ï¿½ï¿½acceptï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ë¶ï¿½Ó¦ï¿½ï¿½SocketChannel  
                         	SocketChannel channel = serverSocketChannel.accept();
                         	channel.configureBlocking(false);
-                        	// ½«¸ÃSocketChannelÒ²×¢²áµ½selector  
+                        	// ï¿½ï¿½ï¿½ï¿½SocketChannelÒ²×¢ï¿½áµ½selector  
                         	channel.register(selector, SelectionKey.OP_READ);
-                        	// ½«key¶ÔÓ¦µÄChannelÉèÖÃ³É×¼±¸½ÓÊÜÆäËûÇëÇó
+                        	// ï¿½ï¿½keyï¿½ï¿½Ó¦ï¿½ï¿½Channelï¿½ï¿½ï¿½Ã³ï¿½×¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
                         	key.interestOps(SelectionKey.OP_ACCEPT);
                         }
-                        // Èç¹ûkey¶ÔÓ¦µÄÍ¨µÀÓÐÊý¾ÝÐèÒª¶ÁÈ¡
+                        // ï¿½ï¿½ï¿½keyï¿½ï¿½Ó¦ï¿½ï¿½Í¨ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Òªï¿½ï¿½È¡
                         if(key.isReadable()) {
-                        	// »ñÈ¡¸ÃSelectionKey¶ÔÓ¦µÄChannel£¬¸ÃChannelÖÐÓÐ¿É¶ÁµÄÊý¾Ý
+                        	// ï¿½ï¿½È¡ï¿½ï¿½SelectionKeyï¿½ï¿½Ó¦ï¿½ï¿½Channelï¿½ï¿½ï¿½ï¿½Channelï¿½ï¿½ï¿½Ð¿É¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
                         	SocketChannel channel = (SocketChannel) key.channel();
-                        	// ¶¨Òå×¼±¸Ö´ÐÐ¶ÁÈ¡Êý¾ÝµÄByteBuffer  
+                        	// ï¿½ï¿½ï¿½ï¿½×¼ï¿½ï¿½Ö´ï¿½Ð¶ï¿½È¡ï¿½ï¿½ï¿½Ýµï¿½ByteBuffer  
                             ByteBuffer buff = ByteBuffer.allocate(1024);  
-                            // ¿ªÊ¼¶ÁÈ¡Êý¾Ý
+                            // ï¿½ï¿½Ê¼ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½
                             int len = 0;
                             try {
                             	if((len = channel.read(buff)) > 0) {
-                            		buff.flip();// »º´æ 2Ö¸Õë¸´Î» ×¼±¸ÏÂ´Î¶ÁÈ¡Êý¾Ý
-                            		System.out.println("¶ÁÈ¡Êý¾Ý:" + buff.array());  
+                            		buff.flip();// ï¿½ï¿½ï¿½ï¿½ 2Ö¸ï¿½ë¸´Î» ×¼ï¿½ï¿½ï¿½Â´Î¶ï¿½È¡ï¿½ï¿½ï¿½ï¿½
+                            		System.out.println("ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½:" + buff.array());  
                                     key.interestOps(SelectionKey.OP_READ);
                             	} else {  
-                                    System.out.println("Ã»ÓÐÊý¾Ý¶ÁÈ¡,¹Ø±ÕÍ¨µÀ");  
+                                    System.out.println("Ã»ï¿½ï¿½ï¿½ï¿½ï¿½Ý¶ï¿½È¡,ï¿½Ø±ï¿½Í¨ï¿½ï¿½");  
                                     key.cancel();  
                                     if (key.channel() != null) {  
                                     	key.channel().close();  
                                     }  
                                 }  
                             } catch(Exception e) {
-                            	// Èç¹û²¶×½µ½¸Ãkey¶ÔÓ¦µÄChannel³öÏÖÁËÒì³££¬¼´±íÃ÷¸ÃChannel  
-                                // ¶ÔÓ¦µÄClient³öÏÖÁËÎÊÌâ£¬ËùÒÔ´ÓSelectorÖÐÈ¡ÏûskµÄ×¢²á 
+                            	// ï¿½ï¿½ï¿½ï¿½ï¿½×½ï¿½ï¿½ï¿½ï¿½keyï¿½ï¿½Ó¦ï¿½ï¿½Channelï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ì³£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Channel  
+                                // ï¿½ï¿½Ó¦ï¿½ï¿½Clientï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½â£¬ï¿½ï¿½ï¿½Ô´ï¿½Selectorï¿½ï¿½È¡ï¿½ï¿½skï¿½ï¿½×¢ï¿½ï¿½ 
                             	System.err.println(e.getMessage());
 								key.cancel();  
 								if (key.channel() != null) {  
 									key.channel().close();  
 								}  
-								System.out.println("¹Ø±ÕÒ»¸ö¿Í»§¶Ë"); 
+								System.out.println("ï¿½Ø±ï¿½Ò»ï¿½ï¿½ï¿½Í»ï¿½ï¿½ï¿½"); 
                             }
                             
-                         // Èç¹ûcontentµÄ³¤¶È´óÓÚ0£¬¼´ÁÄÌìÐÅÏ¢²»Îª¿Õ  
+                         // ï¿½ï¿½ï¿½contentï¿½Ä³ï¿½ï¿½È´ï¿½ï¿½ï¿½0ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢ï¿½ï¿½Îªï¿½ï¿½  
                             if (len > 0) {  
-                                // ±éÀú¸ÃselectorÀï×¢²áµÄËùÓÐSelectKey  
+                                // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½selectorï¿½ï¿½×¢ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½SelectKey  
                                 SelectionKey writeKey = null;  
                                 for (SelectionKey selectKey : selector.keys()) {  
-                                    // »ñÈ¡¸Ãkey¶ÔÓ¦µÄChannel  
+                                    // ï¿½ï¿½È¡ï¿½ï¿½keyï¿½ï¿½Ó¦ï¿½ï¿½Channel  
   
                                     Channel targetChannel = selectKey.channel();  
-                                    // Èç¹û¸ÃchannelÊÇSocketChannel¶ÔÏó  
+                                    // ï¿½ï¿½ï¿½ï¿½ï¿½channelï¿½ï¿½SocketChannelï¿½ï¿½ï¿½ï¿½  
                                     if (targetChannel instanceof SocketChannel) {  
                                         // && key != sk) {  
-                                        // ½«¶Áµ½µÄÄÚÈÝÐ´Èë¸ÃChannelÖÐ ,·µ»Øµ½¿Í»§¶Ë  
+                                        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð´ï¿½ï¿½ï¿½Channelï¿½ï¿½ ,ï¿½ï¿½ï¿½Øµï¿½ï¿½Í»ï¿½ï¿½ï¿½  
                                         if (targetChannel instanceof SocketChannel  
                                                 && selectKey != key) {  
                                             SocketChannel dest = null;  
                                             try {  
-                                                // ½«¶Áµ½µÄÄÚÈÝÐ´Èë¸ÃChannelÖÐ ,·µ»Øµ½¿Í»§¶Ë  
+                                                // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð´ï¿½ï¿½ï¿½Channelï¿½ï¿½ ,ï¿½ï¿½ï¿½Øµï¿½ï¿½Í»ï¿½ï¿½ï¿½  
                                                 dest = (SocketChannel) targetChannel;  
-                                                System.out.println("Ð´Êý¾Ý:"  
+                                                System.out.println("Ð´ï¿½ï¿½ï¿½ï¿½:"  
                                                         + buff.array());  
                                                 dest.write(buff);  
                                             } catch (Exception e) {  
-                                                // Ð´Òì³£,¹Ø±ÕÍ¨µÀ  
+                                                // Ð´ï¿½ì³£,ï¿½Ø±ï¿½Í¨ï¿½ï¿½  
                                                 e.printStackTrace();  
                                                 if (dest != null) {  
                                                     dest.close();  
@@ -162,6 +162,6 @@ public class NioServer {
         new NioServer().new Server(host, port).run();
         // new NServer().init(InetAddress.getLocalHost().getHostAddress(),  
         // 30000);  
-        System.out.println("Nio·þÎñ¶ËÆô¶¯ÁË,host:" + host);  
+        System.out.println("Nioï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½,host:" + host);  
     } 
 }
