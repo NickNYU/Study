@@ -17,6 +17,9 @@ public class TimeClientHandler implements Runnable {
 		this.clientChannel = SocketChannel.open();
 		this.clientChannel.configureBlocking(false);
 		this.selector = Selector.open();
+		
+		this.host = host == null ? "127.0.0.1" : host;
+		this.port = port;
 	}
 	
 	public void handleKey(SelectionKey key) {
@@ -26,17 +29,17 @@ public class TimeClientHandler implements Runnable {
 
 	@Override
 	public void run() {
-		//boolean isConnect = this.clientChannel.isConnected();
-		boolean isConnect = false;
+		
 		try {
-			isConnect = this.clientChannel.connect(new InetSocketAddress(host, port));
+			doConnection();
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		if(!isConnect) {
-			
-		} else {
-			
-		}
+	}
+	
+	public void doConnection() throws IOException {
+		//boolean isConnect = this.clientChannel.isConnected();
+		boolean isConnect = this.clientChannel.connect(new InetSocketAddress(host, port));
 	}
 }

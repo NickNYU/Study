@@ -1,7 +1,13 @@
 package com.emc.ehc.nick.NIO;
 
+import java.io.IOException;
+
 public class TimeClient {
 	public void openClient(String host, int port) {
-		new Thread(new TimeClientHandler(host, port));
+		try {
+			new Thread(new TimeClientHandler(host, port)).start();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 }
