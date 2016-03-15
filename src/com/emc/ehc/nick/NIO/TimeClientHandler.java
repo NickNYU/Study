@@ -36,10 +36,17 @@ public class TimeClientHandler implements Runnable {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		
+		while(true) {
+			
+		}
 	}
 	
 	public void doConnection() throws IOException {
 		//boolean isConnect = this.clientChannel.isConnected();
 		boolean isConnect = this.clientChannel.connect(new InetSocketAddress(host, port));
+		if(!isConnect) {
+			
+		}
 	}
 }
