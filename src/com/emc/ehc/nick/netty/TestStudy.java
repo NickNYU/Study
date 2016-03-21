@@ -10,4 +10,11 @@ public class TestStudy {
 		int length = System.getProperty("line.separator").length();
 		System.out.println(length);
 	}
+	
+	@Test
+	public void testSystemPropertyPort() {
+		String port = System.getProperty("port", "80809080898");
+		
+		System.out.println(port);
+	}
 }

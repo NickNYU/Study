@@ -5,8 +5,10 @@ import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerAdapter;
 import io.netty.channel.ChannelHandlerContext;
+import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.channel.ChannelHandler.*;
 
+@SuppressWarnings("deprecation")
 @Sharable
 public class EchoServerHandler extends ChannelHandlerAdapter {
 	

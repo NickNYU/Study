@@ -4,42 +4,48 @@ import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
+import io.netty.channel.ChannelOption;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
+import io.netty.handler.logging.LogLevel;
+import io.netty.handler.logging.LoggingHandler;
 
 public class EchoServer {
-	private final int port;
+	private static final int PORT = Integer.parseInt(System.getProperty("port", "8080"));
 	
-	public EchoServer(int port) {
-		this.port = port;
+	public EchoServer() {
 	}
 	
 	public void startServer() throws InterruptedException {
-		EventLoopGroup group = new NioEventLoopGroup();
+		EventLoopGroup boss = new NioEventLoopGroup();
+		EventLoopGroup worker = new NioEventLoopGroup();
 		try {
 			ServerBootstrap b = new ServerBootstrap();
-			b.group(group);
+			b.group(boss, worker);
 			b.channel(NioServerSocketChannel.class);
-			b.localAddress(port);
+			b.option(ChannelOption.SO_BACKLOG, 1024);
+			//b.localAddress(PORT);
 			b.childHandler(new EchoServerHandler());
-			b.handler(new ChannelInitializer() {
+			b.handler(new LoggingHandler(LogLevel.INFO))
+			.childHandler(new ChannelInitializer() {
 				@Override
 				public void initChannel(Channel channel) throws Exception {
 					channel.pipeline().addLast(new EchoServerHandler());
 				}
 			});
-			ChannelFuture f = b.bind().sync();
+			ChannelFuture f = b.bind(PORT).sync();
 			System.out.println(EchoServer.class.getName() + " started and listen on " + f.channel().localAddress());
 			f.channel().close().sync();
 		} finally {
-			group.shutdownGracefully().sync();
+			boss.shutdownGracefully().sync();
+			worker.shutdownGracefully().sync();
 		}
 	}
 	
 	public static void main(String[] args) {
 		try {
-			new EchoServer(8080).startServer();
+			new EchoServer().startServer();
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}

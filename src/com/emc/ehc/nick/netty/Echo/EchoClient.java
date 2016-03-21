@@ -4,13 +4,16 @@ import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
+import io.netty.channel.ChannelOption;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
+import io.netty.channel.socket.nio.NioSocketChannel;
 
 public class EchoClient {
 	
 	private final int port;
 	private final String host;
+	static final int SIZE = 10;
 	
 	public EchoClient(String host, int port) {
 		this.port = port;
@@ -22,7 +25,9 @@ public class EchoClient {
 		try {
 			Bootstrap b = new Bootstrap();
 			b.group(group);
-			b.remoteAddress(this.host, this.port);
+			b.channel(NioSocketChannel.class);
+			b.option(ChannelOption.TCP_NODELAY, true);
+			//b.remoteAddress(this.host, this.port);
 			b.handler(new ChannelInitializer(){
 				
 				@Override
@@ -30,7 +35,7 @@ public class EchoClient {
 					ch.pipeline().addLast(new EchoClientHandler());
 				}
 			});
-			ChannelFuture f = b.connect().sync();
+			ChannelFuture f = b.connect(this.host, this.port).sync();
 			f.channel().closeFuture().sync();
 		} finally {
 			group.shutdownGracefully().sync();
@@ -39,7 +44,7 @@ public class EchoClient {
 	
 	public static void main(String[] args) {
 		try {
-			new EchoClient("127.0.0.1", 8080).startClient();
+			new EchoClient("127.0.0.1", 9090).startClient();
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
