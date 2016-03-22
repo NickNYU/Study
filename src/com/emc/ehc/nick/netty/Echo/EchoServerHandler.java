@@ -12,7 +12,6 @@ import io.netty.channel.ChannelHandler.*;
 @Sharable
 public class EchoServerHandler extends ChannelHandlerAdapter {
 	
-	@Override
 	public void channelRead(ChannelHandlerContext ctx, Object msg) {
 		ByteBuf buff = (ByteBuf) msg;
 		byte[] body = new byte[buff.readableBytes()];
@@ -22,7 +21,6 @@ public class EchoServerHandler extends ChannelHandlerAdapter {
 		ctx.write(body);
 	}
 	
-	@Override
 	public void channelReadComplete(ChannelHandlerContext ctx) {
 		ctx.writeAndFlush(Unpooled.EMPTY_BUFFER)
 			.addListener(ChannelFutureListener.CLOSE);

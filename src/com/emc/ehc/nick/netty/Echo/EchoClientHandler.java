@@ -2,7 +2,6 @@ package com.emc.ehc.nick.netty.Echo;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
-import io.netty.channel.ChannelHandlerAdapter;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.util.CharsetUtil;
@@ -22,14 +21,12 @@ public class EchoClientHandler extends SimpleChannelInboundHandler {
         }
     }
     
-	@Override
 	protected void messageReceived(ChannelHandlerContext ctx, Object msg) throws Exception {
 		ByteBuf buff = (ByteBuf) msg;
 		System.out.println("Client received: " + buff.toString());
 	}
 	
-	@Override
-    public void channelActive(ChannelHandlerContext ctx) {
+	public void channelActive(ChannelHandlerContext ctx) {
         ctx.writeAndFlush(Unpooled.copiedBuffer("Netty rocks!", //2
         CharsetUtil.UTF_8));
     }
@@ -38,5 +35,10 @@ public class EchoClientHandler extends SimpleChannelInboundHandler {
 	public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
 		cause.printStackTrace();
         ctx.close();
+	}
+
+	@Override
+	protected void channelRead0(ChannelHandlerContext arg0, Object arg1) throws Exception {
+		
 	}
 }
