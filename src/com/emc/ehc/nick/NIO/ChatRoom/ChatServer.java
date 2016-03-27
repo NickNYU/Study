@@ -76,7 +76,11 @@ public class ChatServer implements Runnable {
 					readMessage(key);
 				}
 				if(key.isWritable()) {
-					writeMessage(key);
+					try {
+						writeMessage(key);
+					} catch(Exception e) {
+						e.printStackTrace();
+					}
 				}
 			}
 		}
@@ -103,8 +107,19 @@ public class ChatServer implements Runnable {
 		
 	}
 	
-	private void writeMessage(SelectionKey key) {
+	private void writeMessage(SelectionKey key) throws IOException {
+		SocketChannel channel = (SocketChannel) key.channel();
+		Object msg = key.attachment();
+		////这里必要要将key的附加数据设置为空，否则会有问题
+		key.attach("");
 		
+		if(msg.toString().equalsIgnoreCase("close")) {
+			key.cancel();
+			channel.socket().close();
+			channel.close();
+		} else {
+			channel.write(ByteBuffer.wrap(msg.toString().getBytes()));
+		}
 	}
 	
 }
