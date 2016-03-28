@@ -36,7 +36,7 @@ public class EchoServer {
 			});
 			ChannelFuture f = b.bind(PORT).sync();
 			System.out.println(EchoServer.class.getName() + " started and listen on " + f.channel().localAddress());
-			f.channel().close().sync();
+			//f.channel().close().sync();
 		} finally {
 			boss.shutdownGracefully().sync();
 			worker.shutdownGracefully().sync();

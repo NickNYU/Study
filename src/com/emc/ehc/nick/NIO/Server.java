@@ -8,6 +8,8 @@ import java.nio.charset.Charset;
 import java.util.Iterator;
 import java.util.Set;
 
+import org.junit.Test;
+
 public class Server {
 	private static SelectorLoop eventLoop = null;
 	private static SelectorLoop businessLoop = null;
@@ -84,6 +86,7 @@ public class Server {
 		}
 	}
 	
+	@Test
 	public void startServer(int port) throws IOException {
 		// Start a Event
 		eventLoop = new SelectorLoop();
