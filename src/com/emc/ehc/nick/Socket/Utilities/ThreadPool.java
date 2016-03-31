@@ -55,4 +55,8 @@ public class ThreadPool<T extends Runnable> extends Thread {
 	public synchronized boolean isFull() {
 		return this.capacity == taskQueue.size();
 	}
+	
+	public static void testThreadPool() {
+		
+	}
 }
