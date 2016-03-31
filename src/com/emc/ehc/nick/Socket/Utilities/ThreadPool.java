@@ -3,6 +3,8 @@ package com.emc.ehc.nick.Socket.Utilities;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
+import org.junit.Test;
+
 public class ThreadPool<T extends Runnable> extends Thread {
 	
 	private int capacity = 5;
@@ -56,7 +58,8 @@ public class ThreadPool<T extends Runnable> extends Thread {
 		return this.capacity == taskQueue.size();
 	}
 	
+	@Test
 	public static void testThreadPool() {
-		
+		ThreadPool<SocketWrapper> pool = new ThreadPool<SocketWrapper>(10);
 	}
 }
