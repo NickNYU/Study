@@ -15,11 +15,11 @@ public class SelectSockets {
 	public static int PORT_NUMBER = 1234;
 	private ByteBuffer buffer = ByteBuffer.allocateDirect(1024);
 	
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws Exception {
 		new SelectSockets().go();
 	}
 	
-	public void go() throws IOException {
+	public void go() throws Exception{
 		
 		int port = PORT_NUMBER;
 		
@@ -70,7 +70,7 @@ public class SelectSockets {
 		}
 	}
 	
-	private void readDataFromSocket(SelectionKey key) throws IOException {
+	protected void readDataFromSocket(SelectionKey key) throws IOException, InterruptedException {
 		SocketChannel socketChannel = (SocketChannel) key.channel();
 		int count; 
 		
