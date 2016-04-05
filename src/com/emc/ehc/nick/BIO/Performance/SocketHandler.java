@@ -42,7 +42,7 @@ public class SocketHandler implements Runnable {
 
 	        //下面打印信息
 	        SocketHandler.log.info("服务器收到来自于端口：" + sourcePort + "的信息：" + message);
-
+	        System.out.println("服务器收到来自于端口：" + sourcePort + "的信息：" + message);
 	        //下面开始发送信息
 	        out.write("Server 回发响应信息！".getBytes());
 		} catch (IOException e) {

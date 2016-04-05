@@ -2,6 +2,7 @@ package com.emc.ehc.nick.BIO.Performance;
 
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.util.concurrent.CountDownLatch;
 
@@ -39,19 +40,23 @@ public class SocketClientRequestThread implements Runnable {
         OutputStream clientRequest = null;
         InputStream clientResponse = null;
         try {
-        	socket = new Socket("localhost", 1235);
+        	int port = 8090;
+        	socket = new Socket("localhost", port);
+        	//System.out.println("Socket has been created at port : " + port);
         	clientResponse = socket.getInputStream();
         	clientRequest = socket.getOutputStream();
         	
         	//等待，直到SocketClientDaemon完成所有线程的启动，然后所有线程一起发送请求
             this.countDownLatch.await();
-
+            
+            System.out.println("[Socket" + this.clientIndex + "] Socket has been created at port : " + port);
             //发送请求信息
             clientRequest.write(("这是第" + this.clientIndex + " 个客户端的请求。").getBytes());
             clientRequest.flush();
             
           //在这里等待，直到服务器返回信息
             SocketClientRequestThread.log.info("第" + this.clientIndex + "个客户端的请求发送完成，等待服务器返回信息");
+            System.out.println("第" + this.clientIndex + "个客户端的请求发送完成，等待服务器返回信息");
             int maxLen = 1024;
             byte[] contextBytes = new byte[maxLen];
             int realLen;
@@ -62,6 +67,7 @@ public class SocketClientRequestThread implements Runnable {
             }
             String message = sb.toString();
             SocketClientRequestThread.log.info("接收到来自服务器的信息:" + message);
+            System.out.println("接收到来自服务器的信息:" + message);
         } catch(Exception e) {
         	SocketClientRequestThread.log.error(e.getMessage(), e);
         } finally {
@@ -73,7 +79,7 @@ public class SocketClientRequestThread implements Runnable {
                     clientResponse.close();
                 }
             } catch (Exception e) {
-                SocketClientRequestThread.log.error(e.getMessage(), e);
+            	SocketClientRequestThread.log.error(e.getMessage(), e);
             }
         }
 	}

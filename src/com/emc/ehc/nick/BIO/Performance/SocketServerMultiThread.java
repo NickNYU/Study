@@ -22,21 +22,27 @@ import org.apache.log4j.Logger;
 public class SocketServerMultiThread {
 	
 	private static final Logger log = Logger.getLogger(SocketServerMultiThread.class);
-	
+
+	public static void main(String[] args) {
+		new SocketServerMultiThread().startServer();
+	}
 	public void startServer() {
 		ServerSocket server = null;
-		ExecutorService executor = new ThreadPoolExecutor(Runtime.getRuntime().availableProcessors(), 
-				50, 
-				120L, 
-				TimeUnit.SECONDS,
-				new ArrayBlockingQueue(10));
+//		ExecutorService executor = new ThreadPoolExecutor(Runtime.getRuntime().availableProcessors(), 
+//				50, 
+//				120L, 
+//				TimeUnit.SECONDS,
+//				new ArrayBlockingQueue(10));
 		try {
+			int port = 8090;
+			server = new ServerSocket(port);
+			System.out.println("Server started at port" + port);
 			while(true) {
-				server = new ServerSocket(1235);
 			
 				Socket socket = server.accept();
-				
-				executor.execute(new SocketHandler(socket));
+				System.out.println("[Server] recieve socket");
+				new Thread(new SocketHandler(socket)).start();
+				//executor.execute(new SocketHandler(socket));
 			
 			}
 		} catch(Exception e) {

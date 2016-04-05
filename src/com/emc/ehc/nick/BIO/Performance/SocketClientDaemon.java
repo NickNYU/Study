@@ -1,5 +1,7 @@
 package com.emc.ehc.nick.BIO.Performance;
 
+import java.net.InetSocketAddress;
+import java.net.Socket;
 import java.util.concurrent.CountDownLatch;
 
 import org.apache.log4j.Logger;
@@ -13,6 +15,7 @@ public class SocketClientDaemon {
 	private static final Logger log = Logger.getLogger(SocketClientDaemon.class);
 	
 	public static void main(String[] args) throws Exception {
+		
         Integer clientNumber = 20;
         CountDownLatch countDownLatch = new CountDownLatch(clientNumber);
 
@@ -20,7 +23,9 @@ public class SocketClientDaemon {
         for(int index = 0 ; index < clientNumber ; index++ , countDownLatch.countDown()) {
             SocketClientRequestThread client = new SocketClientRequestThread(countDownLatch, index);
             new Thread(client).start();
+            System.out.println("Client NO." + index + " has been ready");
         }
+        System.out.println("Ready, Let's go");
 
         //这个wait不涉及到具体的实验逻辑，只是为了保证守护线程在启动所有线程后，进入等待状态
         synchronized (SocketClientDaemon.class) {
