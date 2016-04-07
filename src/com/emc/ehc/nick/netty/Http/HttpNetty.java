@@ -48,6 +48,6 @@ public class HttpNetty {
         
         serverBootstrap.option(ChannelOption.SO_BACKLOG, 128);
         serverBootstrap.childOption(ChannelOption.SO_KEEPALIVE, true);
-        serverBootstrap.bind(new InetSocketAddress("0.0.0.0", 8090));
+        serverBootstrap.bind(new InetSocketAddress("0.0.0.0", 9090));
 	}
 }
