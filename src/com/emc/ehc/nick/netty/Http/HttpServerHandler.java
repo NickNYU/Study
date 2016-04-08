@@ -61,6 +61,7 @@ public class HttpServerHandler extends ChannelInboundHandlerAdapter {
 			
 			HttpServerHandler.LOGGER.info("methodName = " + methodName + " && url = " + url);
 			System.out.println("methodName = " + methodName + " && url = " + url);
+			//jdklsajfda
 		}
 		//如果条件成立，则在这个代码段实现http请求内容的累加
 		if(msg instanceof HttpContent) {
