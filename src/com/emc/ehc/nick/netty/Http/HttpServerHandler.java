@@ -61,7 +61,6 @@ public class HttpServerHandler extends ChannelInboundHandlerAdapter {
 			
 			HttpServerHandler.LOGGER.info("methodName = " + methodName + " && url = " + url);
 			System.out.println("methodName = " + methodName + " && url = " + url);
-			//jdklsajfda
 		}
 		//如果条件成立，则在这个代码段实现http请求内容的累加
 		if(msg instanceof HttpContent) {
@@ -76,7 +75,7 @@ public class HttpServerHandler extends ChannelInboundHandlerAdapter {
 			String preContent = buffer.toString(io.netty.util.CharsetUtil.UTF_8);
 			sb.append(preContent);
 			
-			System.out.println(sb);
+			System.out.println(preContent);
 		}
 	}
 
@@ -88,7 +87,7 @@ public class HttpServerHandler extends ChannelInboundHandlerAdapter {
 	public void channelReadComplete(ChannelHandlerContext ctx) throws Exception {
 		StringBuffer sb = ctx.attr(HttpServerHandler.CONTENT).get();
 		//HttpServerHandler.LOGGER.info("http客户端传来的信息为：" + sb.toString());
-		System.out.println(sb);
+		//System.out.println(sb);
 		
 		//开始返回信息了
 		String returnValue = "return response";
