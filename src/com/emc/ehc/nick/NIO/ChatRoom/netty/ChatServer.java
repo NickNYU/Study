@@ -1,5 +1,7 @@
 package com.emc.ehc.nick.NIO.ChatRoom.netty;
 
+import java.net.InetSocketAddress;
+
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.*;
@@ -30,6 +32,13 @@ public class ChatServer {
 							}
 							
 						});
+		serverBootstrap.option(ChannelOption.SO_BACKLOG, 128);
+        serverBootstrap.childOption(ChannelOption.SO_KEEPALIVE, true);
+        serverBootstrap.bind(new InetSocketAddress("0.0.0.0", 9090));
 		
+	}
+	
+	public static void main(String[] args) {
+		new ChatServer().startServer();
 	}
 }
