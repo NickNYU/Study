@@ -28,7 +28,6 @@ public class ChatServer {
 
 							@Override
 							protected void initChannel(NioSocketChannel ch) throws Exception {
-								ch.pipeline().addLast(new ChatReader());
 							}
 							
 						});
