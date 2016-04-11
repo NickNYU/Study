@@ -7,7 +7,7 @@ import java.nio.channels.SocketChannel;
 
 public class ChatClient {
 	private static final String HOST = "127.0.0.1";
-    private static final int PORT = 9090;
+    private static final int PORT = 8090;
     private static SocketChannel sc;
     
     private static class ChatClientHolder {
