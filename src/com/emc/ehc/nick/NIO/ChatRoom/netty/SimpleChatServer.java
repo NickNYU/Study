@@ -14,11 +14,11 @@ import io.netty.channel.socket.nio.NioSocketChannel;
 * @version 创建时间：2016年4月9日 下午11:14:46 
 * 
 */
-public class ChatServer {
+public class SimpleChatServer {
 	
 	private int port;
 
-    public ChatServer(int port) {
+    public SimpleChatServer(int port) {
         this.port = port;
     }
 	
@@ -34,7 +34,7 @@ public class ChatServer {
 			serverBootstrap.group(boss, worker);
 			// 绑定接口
 			serverBootstrap.channel(NioServerSocketChannel.class)
-							.childHandler(new ChatServerInitializer());
+							.childHandler(new SimpleChatServerInitializer());
 			
 			serverBootstrap.option(ChannelOption.SO_BACKLOG, 128);
 		    serverBootstrap.childOption(ChannelOption.SO_KEEPALIVE, true);
@@ -54,6 +54,6 @@ public class ChatServer {
 	}
 	
 	public static void main(String[] args) throws Exception {
-		new ChatServer(8090).startServer();
+		new SimpleChatServer(8090).startServer();
 	}
 }
