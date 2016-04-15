@@ -86,7 +86,7 @@ public class HttpServerHandler extends ChannelInboundHandlerAdapter {
 	@Override
 	public void channelReadComplete(ChannelHandlerContext ctx) throws Exception {
 		StringBuffer sb = ctx.attr(HttpServerHandler.CONTENT).get();
-		//HttpServerHandler.LOGGER.info("http客户端传来的信息为：" + sb.toString());
+		HttpServerHandler.LOGGER.info("http客户端传来的信息为：" + sb.toString());
 		//System.out.println(sb);
 		
 		//开始返回信息了
