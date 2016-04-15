@@ -25,7 +25,7 @@ public class SimpleChatClient {
 	private final String host;
     private final int port;
 
-    public SimpleChatClient(String host, int port){
+    public SimpleChatClient(String host, int port) {
         this.host = host;
         this.port = port;
     }

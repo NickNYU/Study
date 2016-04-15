@@ -103,6 +103,7 @@ public class HttpServerHandler extends ChannelInboundHandlerAdapter {
         
         ByteBuf responseContent = response.content();
         responseContent.writeBytes(returnValue.getBytes("UTF-8"));
+        responseContent.writeBytes(sb.toString().getBytes("UTF-8"));
         
       //开始返回
         ctx.writeAndFlush(response);
