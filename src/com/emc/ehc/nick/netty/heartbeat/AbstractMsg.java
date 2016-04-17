@@ -8,7 +8,7 @@ import java.io.Serializable;
 * @version 创建时间：2016年4月17日 下午10:37:36 
 * 
 */
-public class AbstractMsg implements Serializable {
+public abstract class AbstractMsg implements Serializable {
 	private final static long serialVersionUID = 1L;
 	private MsgType msgType;
 	// unique id
