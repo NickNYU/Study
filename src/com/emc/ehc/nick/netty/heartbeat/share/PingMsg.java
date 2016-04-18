@@ -1,4 +1,9 @@
 package com.emc.ehc.nick.netty.heartbeat.share;
+
+import com.emc.ehc.nick.netty.heartbeat.Server.NettyChannelMap;
+
+import io.netty.channel.ChannelHandlerContext;
+
 /** 
 * @author Nick Zhu
 * @email  cz739@nyu.edu 
@@ -9,5 +14,12 @@ public class PingMsg extends AbstractMsg {
 	public PingMsg() {
 		super();
 		setType(MsgType.PING);
+	}
+
+	@Override
+	public boolean dealWithMessage(ChannelHandlerContext ctx) {
+		PingMsg replyPing = new PingMsg();
+        NettyChannelMap.get(this.getClientId()).writeAndFlush(replyPing);
+		return true;
 	}
 }

@@ -2,6 +2,8 @@ package com.emc.ehc.nick.netty.heartbeat.share;
 
 import java.io.Serializable;
 
+import io.netty.channel.ChannelHandlerContext;
+
 /** 
 * @author Nick Zhu
 * @email  cz739@nyu.edu 
@@ -33,4 +35,6 @@ public abstract class AbstractMsg implements Serializable {
     public void setType(MsgType type) {
         this.msgType = type;
     }
+    
+    public abstract boolean dealWithMessage(ChannelHandlerContext ctx);
 }

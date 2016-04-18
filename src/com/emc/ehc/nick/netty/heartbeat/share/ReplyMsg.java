@@ -1,4 +1,7 @@
 package com.emc.ehc.nick.netty.heartbeat.share;
+
+import io.netty.channel.ChannelHandlerContext;
+
 /** 
 * @author Nick Zhu
 * @email  cz739@nyu.edu 
@@ -20,4 +23,11 @@ public class ReplyMsg extends AbstractMsg {
     public void setBody(ReplyBody body) {
         this.body = body;
     }
+
+	@Override
+	public boolean dealWithMessage(ChannelHandlerContext ctx) {
+		ClientReplyBody clientBody = (ClientReplyBody) this.getBody();
+        System.out.println("receive client msg: " + clientBody.getClientInfo());
+		return true;
+	}
 }

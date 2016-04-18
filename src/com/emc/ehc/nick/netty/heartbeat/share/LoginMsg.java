@@ -1,4 +1,9 @@
 package com.emc.ehc.nick.netty.heartbeat.share;
+
+import com.emc.ehc.nick.netty.heartbeat.Server.NettyChannelMap;
+
+import io.netty.channel.ChannelHandlerContext;
+
 /** 
 * @author Nick Zhu
 * @email  cz739@nyu.edu 
@@ -37,6 +42,15 @@ public class LoginMsg extends AbstractMsg {
 	 */
 	public void setPassword(String password) {
 		this.password = password;
+	}
+	@Override
+	public boolean dealWithMessage(ChannelHandlerContext ctx) {
+		try {
+			NettyChannelMap.add(this.getClientId(), ctx.channel());
+			return true;
+		} catch(Exception e) {
+			return false;
+		}
 	}
 	
 	
