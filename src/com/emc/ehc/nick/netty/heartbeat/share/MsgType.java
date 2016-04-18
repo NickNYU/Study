@@ -1,4 +1,4 @@
-package com.emc.ehc.nick.netty.heartbeat;
+package com.emc.ehc.nick.netty.heartbeat.share;
 /** 
 * @author Nick Zhu
 * @email  cz739@nyu.edu 
