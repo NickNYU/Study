@@ -1,6 +1,7 @@
 package com.emc.ehc.nick.netty.heartbeat.Server;
 
 import java.util.Map;
+import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
 
 import io.netty.channel.Channel;
@@ -28,5 +29,21 @@ public class NettyChannelMap {
             	channels.remove(entry.getKey());
             }
         }
+    }
+    
+    public static int size() {
+    	return channels.size();
+    }
+    
+    public static Channel getRandomChannel() {
+    	int count = 0;
+    	int bound = NettyChannelMap.size();
+    	int random = new Random().nextInt(bound);
+    	for (Map.Entry entry : channels.entrySet()){
+            if(count++ == random) {
+            	return (Channel) entry.getValue();
+            }
+        }
+    	return channels.entrySet().iterator().next().getValue();
     }
 }
