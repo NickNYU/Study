@@ -22,4 +22,10 @@ public class PingMsg extends AbstractMsg {
         NettyChannelMap.get(this.getClientId()).writeAndFlush(replyPing);
 		return true;
 	}
+
+	@Override
+	public boolean dealWithClientMessage(ChannelHandlerContext ctx) {
+		System.out.println("receive ping from server----------");
+		return false;
+	}
 }

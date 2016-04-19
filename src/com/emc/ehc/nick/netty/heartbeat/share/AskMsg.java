@@ -41,4 +41,18 @@ public class AskMsg extends AbstractMsg {
 			return false;
 		}
 	}
+
+	@Override
+	public boolean dealWithClientMessage(ChannelHandlerContext ctx) {
+		try {
+			ClientReplyBody replyClientBody=new ClientReplyBody("client info **** !!!");
+	        ReplyMsg replyMsg = new ReplyMsg();
+	        replyMsg.setBody(replyClientBody);
+	        ctx.writeAndFlush(replyMsg);
+	        
+	        return true;
+		} catch(Exception e) {
+			return false;
+		}
+	}
 }

@@ -30,4 +30,11 @@ public class ReplyMsg extends AbstractMsg {
         System.out.println("receive client msg: " + clientBody.getClientInfo());
 		return true;
 	}
+
+	@Override
+	public boolean dealWithClientMessage(ChannelHandlerContext ctx) {
+		ServerReplyBody replyServerBody = (ServerReplyBody) this.getBody();
+        System.out.println("receive client msg: " + replyServerBody.getServerInfo());
+		return true;
+	}
 }

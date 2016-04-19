@@ -43,6 +43,7 @@ public class LoginMsg extends AbstractMsg {
 	public void setPassword(String password) {
 		this.password = password;
 	}
+	
 	@Override
 	public boolean dealWithServerMessage(ChannelHandlerContext ctx) {
 		try {
@@ -54,6 +55,19 @@ public class LoginMsg extends AbstractMsg {
 			return false;
 		}
 		return false;
+	}
+	@Override
+	public boolean dealWithClientMessage(ChannelHandlerContext ctx) {
+		try {
+			//向服务器发起登录
+	        LoginMsg loginMsg = new LoginMsg();
+	        loginMsg.setPassword("password");
+	        loginMsg.setUsername("username");
+	        ctx.writeAndFlush(loginMsg);
+	        return true;
+		} catch(Exception e) {
+			return false;
+		}
 	}
 	
 	
