@@ -27,7 +27,7 @@ public class AskMsg extends AbstractMsg {
     }
 
 	@Override
-	public boolean dealWithMessage(ChannelHandlerContext ctx) {
+	public boolean dealWithServerMessage(ChannelHandlerContext ctx) {
 		//收到客户端的请求
 		try {
 	        if("authToken".equals(this.getParams().getAuth())){

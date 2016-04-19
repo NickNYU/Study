@@ -36,5 +36,5 @@ public abstract class AbstractMsg implements Serializable {
         this.msgType = type;
     }
     
-    public abstract boolean dealWithMessage(ChannelHandlerContext ctx);
+    public abstract boolean dealWithServerMessage(ChannelHandlerContext ctx);
 }

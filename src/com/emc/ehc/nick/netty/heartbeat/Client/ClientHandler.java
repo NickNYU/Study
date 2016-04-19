@@ -15,7 +15,6 @@ public class ClientHandler extends SimpleChannelInboundHandler<AbstractMsg> {
 
 	@Override
 	protected void channelRead0(ChannelHandlerContext ctx, AbstractMsg msg) throws Exception {
-		// TODO Auto-generated method stub
 		
 	}
 

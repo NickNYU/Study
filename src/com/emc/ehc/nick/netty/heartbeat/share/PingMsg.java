@@ -17,7 +17,7 @@ public class PingMsg extends AbstractMsg {
 	}
 
 	@Override
-	public boolean dealWithMessage(ChannelHandlerContext ctx) {
+	public boolean dealWithServerMessage(ChannelHandlerContext ctx) {
 		PingMsg replyPing = new PingMsg();
         NettyChannelMap.get(this.getClientId()).writeAndFlush(replyPing);
 		return true;

@@ -36,7 +36,7 @@ public class ServerHandler extends SimpleChannelInboundHandler<AbstractMsg> {
 			ctx.channel().writeAndFlush(loginMsg);
 		} else {
 			// 回调机制，由message本身来完成操作
-			msg.dealWithMessage(ctx);
+			msg.dealWithServerMessage(ctx);
 		}
 	}
 	

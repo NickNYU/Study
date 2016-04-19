@@ -44,13 +44,16 @@ public class LoginMsg extends AbstractMsg {
 		this.password = password;
 	}
 	@Override
-	public boolean dealWithMessage(ChannelHandlerContext ctx) {
+	public boolean dealWithServerMessage(ChannelHandlerContext ctx) {
 		try {
-			NettyChannelMap.add(this.getClientId(), ctx.channel());
-			return true;
+			if("username".equals(this.username) && "password".equals(this.password)) {
+				NettyChannelMap.add(this.getClientId(), ctx.channel());
+				return true;
+			}
 		} catch(Exception e) {
 			return false;
 		}
+		return false;
 	}
 	
 	

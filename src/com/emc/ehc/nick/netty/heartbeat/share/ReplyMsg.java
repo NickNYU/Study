@@ -25,7 +25,7 @@ public class ReplyMsg extends AbstractMsg {
     }
 
 	@Override
-	public boolean dealWithMessage(ChannelHandlerContext ctx) {
+	public boolean dealWithServerMessage(ChannelHandlerContext ctx) {
 		ClientReplyBody clientBody = (ClientReplyBody) this.getBody();
         System.out.println("receive client msg: " + clientBody.getClientInfo());
 		return true;
