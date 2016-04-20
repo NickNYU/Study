@@ -25,7 +25,7 @@ public class TimeClient {
 					}
 					
 				});
-			ChannelFuture f = b.connect(host, port).sync();
+			ChannelFuture f = b.connect(host, port);//.sync();
 			
 			f.channel().closeFuture().sync();
 		} finally {
@@ -34,7 +34,7 @@ public class TimeClient {
 	}
 	
 	public static void main(String[] args) {
-		int port = 8080;
+		int port = 9090;
 		String host = "127.0.0.1";
 		TimeClient client = new TimeClient();
 		try {

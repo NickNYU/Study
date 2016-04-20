@@ -75,10 +75,10 @@ public class NettyServerBootstrap {
 	
 	public static void main(String []args) throws InterruptedException {
         NettyServerBootstrap server = new NettyServerBootstrap();
-        server.setPort(8090).startServer();
+        server.setPort(9090).startServer();
         while (true){
             Channel channel = NettyChannelMap.getRandomChannel();
-            if(channel!=null){
+            if(channel!= null){
                 AskMsg askMsg = new AskMsg();
                 channel.writeAndFlush(askMsg);
             }
