@@ -18,6 +18,8 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.handler.codec.serialization.ClassResolvers;
 import io.netty.handler.codec.serialization.ObjectDecoder;
 import io.netty.handler.codec.serialization.ObjectEncoder;
+import io.netty.handler.logging.LogLevel;
+import io.netty.handler.logging.LoggingHandler;
 
 /** 
 * @author Nick Zhu
@@ -26,9 +28,12 @@ import io.netty.handler.codec.serialization.ObjectEncoder;
 * 
 */
 public class NettyServerBootstrap {
-	private static int PORT;
-
-	public static int getPort() {
+	private int PORT;
+	
+	public NettyServerBootstrap(int port) {
+		this.PORT = port;
+	}
+	public int getPort() {
 		return PORT;
 	}
 	
@@ -46,6 +51,7 @@ public class NettyServerBootstrap {
 			worker = new NioEventLoopGroup();
 			serverBootstrap.group(boss, worker)
 						.channel(NioServerSocketChannel.class)
+						.handler(new LoggingHandler(LogLevel.INFO))
 						.option(ChannelOption.SO_BACKLOG, 128)
 						.childOption(ChannelOption.SO_KEEPALIVE, true)
 						.option(ChannelOption.TCP_NODELAY, true);
@@ -61,10 +67,11 @@ public class NettyServerBootstrap {
 				}
 				
 			});
-			
 			ChannelFuture f = serverBootstrap.bind(PORT).sync();
+			//ChannelFuture f = serverBootstrap.bind(this.PORT).sync();
 			if(f.isSuccess()){
-	            System.out.println("server start---------------");
+				System.out.println("server start---------------");
+				f.channel().closeFuture().sync();
 	        }
 		} finally {
 			boss.shutdownGracefully();
@@ -74,8 +81,8 @@ public class NettyServerBootstrap {
 	}
 	
 	public static void main(String []args) throws InterruptedException {
-        NettyServerBootstrap server = new NettyServerBootstrap();
-        server.setPort(9090).startServer();
+        NettyServerBootstrap server = new NettyServerBootstrap(9090);
+        server.startServer();
         while (true){
             Channel channel = NettyChannelMap.getRandomChannel();
             if(channel!= null){

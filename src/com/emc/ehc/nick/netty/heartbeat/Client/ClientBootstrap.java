@@ -72,7 +72,7 @@ public class ClientBootstrap {
 	
 	public static void main(String[]args) throws InterruptedException {
         Constants.setClientID("001");
-        ClientBootstrap client = new ClientBootstrap("localhost", 9090);
+        ClientBootstrap client = new ClientBootstrap("127.0.0.1", 9090);
         ChannelFuture future = client.startClient();
         
         if(future == null) {
