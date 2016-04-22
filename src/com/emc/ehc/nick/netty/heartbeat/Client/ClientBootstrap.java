@@ -81,14 +81,14 @@ public class ClientBootstrap {
         AbstractMsg message = new LoginMsg();
         ((LoginMsg) message).setUsername("username");
         ((LoginMsg) message).setPassword("password");
-        //future.channel().writeAndFlush(message);
-//        while (true){
-//            TimeUnit.SECONDS.sleep(3);
-//            AskMsg askMsg = new AskMsg();
-//            AskParams askParams = new AskParams();
-//            askParams.setAuth("authToken");
-//            askMsg.setParams(askParams);
-//            //future.channel().writeAndFlush(askMsg);
-//        }
+        future.channel().writeAndFlush(message);
+        while (true){
+            TimeUnit.SECONDS.sleep(3);
+            AskMsg askMsg = new AskMsg();
+            AskParams askParams = new AskParams();
+            askParams.setAuth("authToken");
+            askMsg.setParams(askParams);
+            //future.channel().writeAndFlush(askMsg);
+        }
     }
 }
