@@ -1,6 +1,7 @@
 package com.emc.ehc.nick.netty.Reactor;
 
 import java.io.IOException;
+import java.nio.ByteBuffer;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
 import java.nio.channels.SocketChannel;
@@ -14,7 +15,8 @@ import java.nio.channels.SocketChannel;
 public class Handler implements Runnable {
 	
 	private SocketChannel channel;
-	private Selector selector;
+	private SelectionKey selectionKey;
+	private ByteBuffer input = ByteBuffer.allocate(1024);
 	
 	private final int READ = 0, WRITE = 1;
 	
@@ -24,26 +26,67 @@ public class Handler implements Runnable {
 
 	public Handler(SocketChannel socketChannel, Selector selector) throws IOException {
 		this.channel = socketChannel;
-		this.selector = selector;
+		selector = selector;
 		
 		this.channel.configureBlocking(false);
-		SelectionKey selectedKey1 = this.channel.register(this.selector, SelectionKey.OP_READ);
+		selectionKey = this.channel.register(selector, SelectionKey.OP_READ);
 		
 		/* 
         handler作为SellectionKey的attachment。这样，handler就与SelectionKey也就是interestOps对应起来了 
         反过来说，当interestOps发生、SelectionKey被选中时，就能从SelectionKey中取得handler 
         */  
-		selectedKey1.attach(this);
-		selectedKey1.interestOps(SelectionKey.OP_READ);
+		selectionKey.attach(this);
+		selectionKey.interestOps(SelectionKey.OP_READ);
 		
 		/**
 		 * {@link Reactor} 中会通过调用 run 来真正触发操作*/
-        this.selector.wakeup();
+        selector.wakeup();
 	}
 
 	@Override
+	/**
+	 * 因为 Reactor 通过 dispatch来调用 runnable task， 而这里 通过 attach(this) 所以可以直接用这里的channel
+	 * */
 	public void run() {
-		
+		try {
+			if (state == READ) {  
+			    read();  
+			} else if (state == WRITE) {  
+			    write();
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}  
+	}
+	
+	public void read() throws IOException {
+		int readNumber = channel.read(input);
+		if(readNumber > 0) {
+			proccessRead(readNumber);
+		}
+		state = WRITE;
+		selectionKey.interestOps(SelectionKey.OP_WRITE);
+	}
+	
+	public void write() throws IOException {
+		System.out.println("Saying hello to " + clientName);  
+        ByteBuffer output = ByteBuffer.wrap(("Hello " + clientName + "\n").getBytes());  
+        channel.write(output);  
+        selectionKey.interestOps(SelectionKey.OP_READ);  
+        state = READ;
+	}
+	
+	public synchronized void proccessRead(int num) {
+		StringBuilder sb = new StringBuilder();  
+        input.flip();   //from writing mode to reading mode  
+        byte[] subStringBytes = new byte[num];  
+        byte[] array = input.array();  
+        System.arraycopy(array, 0, subStringBytes, 0, num);  
+        // Assuming ASCII (bad assumption but simplifies the example)  
+        sb.append(new String(subStringBytes));  
+        input.clear();  
+        
+        clientName = sb.toString().trim(); 
 	}
 
 }
