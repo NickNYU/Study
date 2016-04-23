@@ -41,7 +41,8 @@ public class Reactor implements Runnable {
 	}
 	
 	private void dispatch(SelectionKey key) {
-		
+		Runnable task = (Runnable) key.attachment();
+		task.run();
 	}
 	
 	private ServerSocketChannel serverSocketChannel;
@@ -64,7 +65,16 @@ public class Reactor implements Runnable {
 		
 		@Override
 		public void run() {
-			
+			//1. 因为dispatch过来的肯定是serverSocketChannel 
+			//(只有ServerSocketChannel会attach acceptor这种handler)
+			//2. 因为在同一个Java Server中，ServerSocketChannel 只有一个，直接用field
+			// 不用对key转换
+			SocketChannel socketChannel = serverSocketChannel.accept();
+			if(isWithThreadPool) {
+				new HandlerWithThreadPool(socketChannel, selector);
+			} else {
+				new Handler(socketChannel, selector);
+			}
 		}
 	}
 
