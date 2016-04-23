@@ -74,7 +74,7 @@ public class ClientBootstrap {
         Constants.setClientID("001");
         ClientBootstrap client = new ClientBootstrap("127.0.0.1", 9090);
         ChannelFuture future = client.startClient();
-        
+        future.channel().closeFuture().sync();
         if(future == null) {
         	throw new NullPointerException("ChannelFuture could not be null");
         }
@@ -88,7 +88,7 @@ public class ClientBootstrap {
             AskParams askParams = new AskParams();
             askParams.setAuth("authToken");
             askMsg.setParams(askParams);
-            //future.channel().writeAndFlush(askMsg);
+            future.channel().writeAndFlush(askMsg);
         }
     }
 }
