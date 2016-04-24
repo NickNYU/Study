@@ -6,5 +6,5 @@ package com.emc.ehc.nick.netty.Reactor.Advanced;
 * 
 */
 public interface ChannelHandler {
-
+	public void dealWithChannel();
 }
