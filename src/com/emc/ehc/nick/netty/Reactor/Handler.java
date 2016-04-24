@@ -21,7 +21,7 @@ public class Handler implements Runnable {
 	private final int READ = 0, WRITE = 1;
 	
 	//初始状态  
-    int state = READ;  
+    int state = READ;
     String clientName = "";  
 
 	public Handler(SocketChannel socketChannel, Selector selector) throws IOException {

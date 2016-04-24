@@ -47,7 +47,7 @@ public abstract class Reactor implements Runnable {
 	public void dispatch(SelectionKey key) {
 		ChannelHandler handler = (ChannelHandler) key.attachment();
 		if(handler != null) {
-			handler.dealWithChannel(key);
+			handler.dealWithChannel();
 		}
 	}
 	
