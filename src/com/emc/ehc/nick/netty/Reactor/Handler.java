@@ -26,7 +26,6 @@ public class Handler implements Runnable {
 
 	public Handler(SocketChannel socketChannel, Selector selector) throws IOException {
 		this.channel = socketChannel;
-		selector = selector;
 		
 		this.channel.configureBlocking(false);
 		selectionKey = this.channel.register(selector, SelectionKey.OP_READ);
