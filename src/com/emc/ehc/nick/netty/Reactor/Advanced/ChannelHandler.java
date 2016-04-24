@@ -1,4 +1,7 @@
 package com.emc.ehc.nick.netty.Reactor.Advanced;
+
+import java.nio.channels.SelectionKey;
+
 /** 
 * @author Nick Zhu
 * @email  cz739@nyu.edu 
@@ -6,5 +9,5 @@ package com.emc.ehc.nick.netty.Reactor.Advanced;
 * 
 */
 public interface ChannelHandler {
-	public void dealWithChannel();
+	public void dealWithChannel(SelectionKey key);
 }

@@ -45,7 +45,10 @@ public abstract class Reactor implements Runnable {
 	}
 	
 	public void dispatch(SelectionKey key) {
-		
+		ChannelHandler handler = (ChannelHandler) key.attachment();
+		if(handler != null) {
+			handler.dealWithChannel(key);
+		}
 	}
 	
 	//首先，要有一个可以轮询的机制
