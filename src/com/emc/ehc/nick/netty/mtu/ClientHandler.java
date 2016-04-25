@@ -17,13 +17,13 @@ import io.netty.channel.ChannelPromise;
 */
 public class ClientHandler extends ChannelOutboundHandlerAdapter {
 
-	private static final int LENGTH = 8192;
+	private static final int LENGTH = 30;
 
 	
 	@Override
 	public void connect(ChannelHandlerContext ctx, SocketAddress remoteAddress, SocketAddress localAddress,
 			ChannelPromise promise) throws Exception {
-		ByteBuf buffer = ctx.alloc().buffer(4 + LENGTH);
+		ByteBuf buffer = ctx.alloc().buffer(4 + LENGTH*2);
 		buffer.writeInt(0);
 		StringBuffer sb = new StringBuffer(LENGTH);
 		for(int i = 0; i < LENGTH; i++)
@@ -31,6 +31,7 @@ public class ClientHandler extends ChannelOutboundHandlerAdapter {
 		buffer.writeBytes(sb.toString().getBytes());
 		buffer.setInt(0, buffer.writerIndex() - 4);
 		
+		System.out.println(buffer.toString());
 		ChannelFuture f = ctx.writeAndFlush(buffer);
 		f.addListener(new ChannelFutureListener() {
 
@@ -40,6 +41,9 @@ public class ClientHandler extends ChannelOutboundHandlerAdapter {
 			}
 			
 		});
+		if(f.isSuccess()) {
+			System.out.println("send out successfully");
+		}
 	}
 	
 	
