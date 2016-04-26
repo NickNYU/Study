@@ -40,7 +40,7 @@ public class Server {
 
 				@Override
 				protected void initChannel(SocketChannel ch) throws Exception {
-					//ch.pipeline().addLast(new ServerReplyDecoder());
+					ch.pipeline().addLast(new ServerReplyDecoder());
 					ch.pipeline().addLast(new ServerHandler());
 				}
 				

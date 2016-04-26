@@ -25,10 +25,15 @@ public class ClientHandler extends ChannelOutboundHandlerAdapter {
 			ChannelPromise promise) throws Exception {
 		ByteBuf buffer = ctx.alloc().buffer(4 + LENGTH*2);
 		buffer.writeInt(0);
-		StringBuffer sb = new StringBuffer(LENGTH);
-		for(int i = 0; i < LENGTH; i++)
-			sb.append("A");
-		buffer.writeBytes(sb.toString().getBytes());
+//		StringBuffer sb = new StringBuffer(LENGTH);
+//		for(int i = 0; i < LENGTH; i++)
+//			sb.append("A");
+//		
+		String temp = "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+				+ "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+				+ "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+				+ "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
+		buffer.writeBytes(temp.getBytes());
 		buffer.setInt(0, buffer.writerIndex() - 4);
 		
 		System.out.println(buffer.toString());

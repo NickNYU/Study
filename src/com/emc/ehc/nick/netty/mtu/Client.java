@@ -1,5 +1,10 @@
 package com.emc.ehc.nick.netty.mtu;
 
+import java.io.IOException;
+import java.io.OutputStream;
+import java.net.InetSocketAddress;
+import java.net.Socket;
+
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.ChannelOption;
 import io.netty.channel.EventLoopGroup;
@@ -17,8 +22,8 @@ import io.netty.channel.ChannelInitializer;
 */
 public class Client {
 	
-	public static void main(String[] args) throws InterruptedException {
-		new Client("localhost", 8090).run();
+	public static void main(String[] args) throws Exception {
+		new Client("localhost", 8090).OioRun();
 	}
 	
 	private String host;
@@ -46,10 +51,24 @@ public class Client {
 			});
 			
 			ChannelFuture f = b.connect(this.host, this.port).sync();
-			f.channel().closeFuture().sync();
+			//f.channel().closeFuture().sync();
 			
 		} finally {
 			group.shutdownGracefully();
 		}
+	}
+	
+	public void OioRun() throws IOException {
+		Socket socket = new Socket();
+		socket.connect(new InetSocketAddress(this.host, this.port));
+		OutputStream output = socket.getOutputStream();
+		String temp = "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+				+ "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+				+ "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+				+ "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
+		
+		
+		output.write(temp.getBytes());
+		socket.shutdownOutput();
 	}
 }
