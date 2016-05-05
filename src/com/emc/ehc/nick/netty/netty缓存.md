@@ -1,6 +1,6 @@
 http://my.oschina.net/andylucc/blog/636661?fromerr=5ObmLD1i
 
-
+jklj
 
 摘要 在JAVA NIO相关的组件中，ByteBuffer是除了Selector、Channel之外的另一个很重要的组件，它是直接和Channel打交道的缓冲区，通常场景或是从ByteBuffer写入Channel，或是从Channel读入Buffer；而在Netty中，被精心设计的ByteBuf则是Netty贯穿整个开发过程中的核心缓冲区，那么他们俩有什么区别呢？Netty对于缓冲区的设计对于高性能应用又带来了哪些值得借鉴的思路呢？本文在介绍ByteBuffer和ByteBuf基本概念的基础之上对两者进行对比，进而扩展介绍Netty中的ByteBuf大家族。
 Netty ByteBuf ByteBuffer
