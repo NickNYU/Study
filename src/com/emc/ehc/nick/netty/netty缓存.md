@@ -13,7 +13,7 @@ JAVA NIO之ByteBuffer
 
 JAVA NIO中，Channel作为通往具有I/O操作属性的实体的抽象，这里的I/O操作通常指readding/writing，而具有I/O操作属性的实体比如I/O设备、文件、网络套接字等等。光有Channel可不行，我们必须为他增加readding/writing的特性，因此JAVA NIO基于Channel扩展WritableByteChannel和ReadableByteChannel接口。由于本文的重点是ByteBuffer，因此我们对于Channel的设计就看到这里，因为有了WritableByteChannel和ReadableByteChannel之后，我们就可以对ByteBuffer进行操作啦，看看他们提供的两个接口：
 
-
+fake update
 public int read(ByteBuffer dst) throws IOException;
 public int write(ByteBuffer src) throws IOException;
 从上面的接口我们可以看到Channel和ByteBuffer之间发生的两个基本行为，即readding/writing。无论是对文件（FileChannel）还是对网络（SocketChannel）的读写，他们都会去实现这两个基本行为。好了，我们已经从总体上认识ByteBuffer在JAVA NIO所处的位置和担当的角色了，下面我们继续深入一点认识ByteBuffer。
