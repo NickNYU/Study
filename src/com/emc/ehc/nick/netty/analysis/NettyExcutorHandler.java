@@ -22,6 +22,7 @@ public class NettyExcutorHandler extends ChannelInitializer<SocketChannel> {
 		ChannelPipeline pipeline = channel.pipeline();
 		pipeline.addLast(new LoggingHandler());
 		pipeline.addLast(group, "excutorHandler", new StringDecoder());
+		pipeline.addLast(new AsynHandler());
 	}
 	
 }
