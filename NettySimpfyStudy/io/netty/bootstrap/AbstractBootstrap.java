@@ -92,6 +92,16 @@ public abstract class AbstractBootstrap<B extends AbstractBootstrap<B, C>, C ext
     	return new ReflectiveChannelFactory<C>(channelClass)；
     }
     
+    /**************************************************************************************
+     * 
+     * @param channel
+     * @throws Exception
+     * 很重要， init留给后面的继承class来实现， template模式
+     */
+    abstract void init(Channel channel) throws Exception;
+    /*****************************************************************************************/
+    
+    
     final ChannelFuture initAndRegister() {
         final Channel channel = channelFactory().newChannel();
         try {
@@ -122,8 +132,6 @@ public abstract class AbstractBootstrap<B extends AbstractBootstrap<B, C>, C ext
 
         return regFuture;
     }
-
-    abstract void init(Channel channel) throws Exception;
 
     private static void doBind0(
             final ChannelFuture regFuture, final Channel channel,
